@@ -1,0 +1,21 @@
+{
+  "name": "angular-leaflet-directive",
+  "description": "Granular authorization in AngularJS",
+  "keywords": [
+    "angularjs",
+    "authorization",
+    "permissions",
+    "roles",
+    "shiro"
+  ],
+  "main": [
+    "dist/angular-authz.js",
+    "dist/angular-authz.min.js"
+  ],
+  "dependencies": {
+    "angular": "1.2.x"
+  },
+  "devDependencies": {            
+    "angular-mocks": "1.2.x"
+  }
+}

@@ -1,0 +1,70 @@
+'use strict';
+
+describe('Provider: authz', function() {
+
+	it('should be an authz provider', function() {
+		var theAuthzProvider;
+		var fakeModule = angular.module('test.app.config', []);
+		fakeModule.config(function(authzProvider) {
+			theAuthzProvider = authzProvider;
+		});
+
+		module('angular-authz', 'test.app.config');
+		inject(function () {});
+
+		expect(theAuthzProvider).not.toBeUndefined();
+	});
+
+	it('should use provided resolver', function() {
+		var impliesCount = 0;
+		var fakeModule = angular.module('test.app.config', []);
+		fakeModule.config(function(authzProvider) {
+			authzProvider.setResolver({
+				resolve: function(permString) {
+					return {
+						permissionString: permString,
+						implies: function(permission) {
+							++impliesCount;
+							return permString === permission.permissionString;
+						}
+					};
+				}
+			});
+		});
+		
+
+		module('angular-authz', 'test.app.config');
+
+		it(' default', inject(function(authz) {
+			authz.setPermissions(['h', 'j']);
+			expect(authz.hasPermission('h')).toEqual(true);
+			expect(impliesCount).toBeGreaterThan(0);
+		}));
+	});
+
+	it('should use provided hasResolver', function() {
+		var fakeModule = angular.module('test.app.config', []);
+		fakeModule.config(function(authzProvider) {
+			
+			authzProvider.setHasResolver({
+				resolve: function(permString) {
+					return {
+						asString: function() {
+							return 'a';
+						},
+						fuckingJsHint: permString
+					};
+				}
+			});
+		});
+		
+
+		module('angular-authz', 'test.app.config');
+
+		it(' default', inject(function(authz) {
+			authz.setPermissions(['a', 'b']);
+			expect(authz.hasPermission('fff')).toEqual(true);
+		}));
+	});
+
+});

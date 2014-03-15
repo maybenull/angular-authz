@@ -1,0 +1,35 @@
+{  
+  "name": "angular-authz",
+  "author": "https://github.com/maybenull/angular-authz",
+  "description": "Granular authorization in AngularJS",
+  "version": "0.1.0",
+  "homepage": "http://maybenull.github.io/angular-authz",
+  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maybenull/angular-authz"
+  },
+  "keywords": [
+    "angularjs",  
+    "authorization",      
+    "permissions",
+    "roles",
+    "shiro"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {    
+    "grunt": "*",    
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-ngmin": "*",
+    "grunt-contrib-uglify": "*",
+
+    "grunt-karma": "*",
+    "karma-spec-reporter": "*",
+    "karma-jasmine": "*",
+    "karma-phantomjs-launcher": "*",
+
+    "grunt-contrib-watch": "*"
+  }
+}
