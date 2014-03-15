@@ -68,6 +68,7 @@ angular.module('app', ['angular-authz']);
         var permissions = queryForPermissions();
         authzProvider.setPermissions(permissions);
       });
+      angular.bootstrap(document, ['app']);
     });
   });
 </script>
