@@ -1,6 +1,6 @@
 # angular-authz
 
-Granular authorization in AngularJS through directives and provider.  
+Granular authorization in AngularJS.
 
 Visit http://maybenull.github.io/angular-authz/ for complete documentation.
 
