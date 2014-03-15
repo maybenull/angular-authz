@@ -49,8 +49,10 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'src/services/authz.js',
-					'src/services/defaultPermission.js',
-					'src/services/defaultPermissionResolver.js',
+					'src/services/simplePermission.js',
+					'src/services/simplePermissionResolver.js',
+					'src/services/wildcardPermission.js',
+					'src/services/wildcardPermissionResolver.js',
 					'src/services/authzProvider.js',
 					'src/directives/hasPermission.js'
                 ],

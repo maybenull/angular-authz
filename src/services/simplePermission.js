@@ -1,6 +1,6 @@
-angular.module('angular-authz').factory('DefaultPermission', function() {
+angular.module('angular-authz').factory('SimplePermission', function() {
 
-	function DefaultPermission(permString) {
+	function SimplePermission(permString) {
 		
 		this.asString = function() {
 			return permString;
@@ -11,5 +11,5 @@ angular.module('angular-authz').factory('DefaultPermission', function() {
 		};
 	}
 
-	return DefaultPermission;
+	return SimplePermission;
 });

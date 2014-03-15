@@ -10,9 +10,9 @@ angular.module('angular-authz').provider('authz', function() {
 		providedHasPermissionResolver = resolver;
 	};
 
-	this.$get = function(DefaultPermission, defaultPermissionResolver) {
-		var resolver = providedPermissionResolver || defaultPermissionResolver;
-		var hasResolver = providedHasPermissionResolver || providedPermissionResolver || defaultPermissionResolver;
+	this.$get = function(wildcardPermissionResolver) {
+		var resolver = providedPermissionResolver || wildcardPermissionResolver;
+		var hasResolver = providedHasPermissionResolver || providedPermissionResolver || wildcardPermissionResolver;
 
 		var permissions = [];
 

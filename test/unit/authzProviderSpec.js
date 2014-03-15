@@ -22,11 +22,11 @@ describe('Provider: authz', function() {
 			authzProvider.setResolver({
 				resolve: function(permString) {
 					return {
-						permissionString: permString,
 						implies: function(permission) {
 							++impliesCount;
-							return permString === permission.permissionString;
-						}
+							return 'h' === permission.permString;
+						},
+						permString: permString
 					};
 				}
 			});
@@ -49,8 +49,8 @@ describe('Provider: authz', function() {
 			authzProvider.setHasResolver({
 				resolve: function(permString) {
 					return {
-						asString: function() {
-							return 'a';
+						asParts: function() {
+							return [['a']];
 						},
 						fuckingJsHint: permString
 					};
@@ -63,7 +63,7 @@ describe('Provider: authz', function() {
 
 		it(' default', inject(function(authz) {
 			authz.setPermissions(['a', 'b']);
-			expect(authz.hasPermission('fff')).toEqual(true);
+			expect(authz.hasPermission('not-a-permission-but-true')).toEqual(true);
 		}));
 	});
 
