@@ -6,7 +6,7 @@ Visit http://maybenull.github.io/angular-authz/ for complete documentation.
 
 ## Permissions
 
-Refer to [Apache Shiro permissions page](https://shiro.apache.org/permissions.html) for detailed documentation on permissions in `angular-authz`.
+Refer to the [Apache Shiro permissions page](https://shiro.apache.org/permissions.html) for detailed documentation on permissions in `angular-authz`.
 
 ###Simple Permissions
 
