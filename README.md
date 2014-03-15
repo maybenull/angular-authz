@@ -20,7 +20,7 @@ authz.hasPermission('driveCar')
 
 ###Advanced Permissions
 
-Support multiple levels and wildcards
+Supports multiple levels and wildcards
 
 ```
 /* These examples use 3 levels in the form domain:action:instance */
