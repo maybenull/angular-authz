@@ -128,8 +128,8 @@ angular.module('app').controller('BarController', function(authz) {
 Does your application represent permission in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
 
 ```javascript
-// create a new permission type 
-angular.module('app').factory('MyPermission', function() {
+angular.module('app').config(function(authzProvider) {
+  // create a new permission type 
   function MyWierdPermission(permissionString) {
     this.wierd = parseTheWierdness(permissionString);
   
@@ -138,24 +138,21 @@ angular.module('app').factory('MyPermission', function() {
     };
   }
   
-  // note NO new operator
-  return MyWierdPermission;
-});
+  // resolve permission string to a wierd permission
+  function MyWierdPermissionResolver() {
+    this.resolve = function(permissionString) {
+      return new MyWierdPermission();
+    }
+  }
 
-// permission strings now resolve to your new type
-angular.module('app').factory('MyPermissionResolver', function(MyPermission) {
-  this.resolve = function(permissionString) {
-    // note we now use new operator
-    return new MyPermission(permissionString);
-  };
-});
-
-// tell authz to use your new permission
-angular.module('app').config(function(authzProvider, resolverProvider) {
-  authzProvider
+  authzProvider.setResolver(new MyWierdPermissionResolver());
 });
 
 ```
+
+Does your application constantly add an instance to the a wildcard permission, lets make that easier.  Use a hasPermissionResolver.
+
+
 
 
 
