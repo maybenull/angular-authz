@@ -128,6 +128,8 @@ angular.module('app').controller('BarController', function(authz) {
 Does your application represent permission in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
 
 ```javascript
+/* I probably need to expose a resolverProvider and/or use the $injector service to make this testable */
+
 angular.module('app').config(function(authzProvider) {
   // create a new permission type 
   function MyWierdPermission(permissionString) {
