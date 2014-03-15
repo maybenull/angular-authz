@@ -1,6 +1,57 @@
 # angular-authz
 
-Granular authorization in AngularJS.
+Granular authorization in AngularJS through directives and provider.
+
+## Permissions
+
+Permissions are the lowest-level constructs in security polices, and they explicitly define only "what" the application can do.  They do not at all describe "who" is able to perform the action(s).  Defining "who" (users) is allowed to do "what" (permissions) is an exercise of assigning permissions to users in some way. This is always done by the application's data model and can vary greatly across applications.   Refer to [Apache Shiro](https://shiro.apache.org/permissions.html) for detailed documentation on permissions in `angular-authz`.
+
+###Simple Permissions
+
+Supports simple, one level permissions
+
+```
+<div has-permission="driveCar"></div>
+or
+authz.hasPermission('driveCar')
+```
+
+###Advanced Permissions
+
+Support multiple levels and wildcards
+
+```
+/* These examples use 3 levels in the form domain:action:instance */
+/* But any number of levels are supported                         */
+
+// drive any car
+<div has-permission="car:drive:*"></div>
+or
+authz.hasPermission('car:drive:*')
+
+
+// drive only corvette
+<div has-permission="car:drive:corvette"></div>
+or
+authz.hasPermission('car:drive:corvette')
+
+// park only corvett
+<div has-permission="car:park:corvette"></div>
+or
+authz.hasPermission('car:park:corvette')
+
+// do anything on a corvette
+<div has-permission="car:*:corvette"></div>
+or
+authz.hasPermission('car:*:corvette')
+
+// do anything on any car
+<div has-permission="car:*"></div>
+or
+authz.hasPermission('car:*')
+
+```
+
 
 ##Usage
 
@@ -25,7 +76,7 @@ angular.module('app', ['angular-authz']);
 angular.module('app').controller('FooController', function(authz) {
   this.init = function() {
     var fooPermissions = queryForFooPermissions(); 
-    authzProvider.setPermissions(fooPermissions);
+    authz.setPermissions(fooPermissions);
   };
 });
 
@@ -41,6 +92,16 @@ angular.module('app').config(function($stateProvider) {
       }
     })
 });
+
+// check permission programatically
+angular.module('app').controller('BarController', function(authz) {
+  this.init = function() {
+    if (! authz.hasPermission('barpermission')) {
+      // get em outa here
+    }
+  };
+});
+
 ```
 ```html
 <!-- display if permission exists -->
