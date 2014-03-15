@@ -1,10 +1,12 @@
 # angular-authz
 
-Granular authorization in AngularJS through directives and provider.
+Granular authorization in AngularJS through directives and provider.  
+
+Visit http://maybenull.github.io/angular-authz/ for complete documentation.
 
 ## Permissions
 
-Permissions are the lowest-level constructs in security polices, and they explicitly define only "what" the application can do.  They do not at all describe "who" is able to perform the action(s).  Defining "who" (users) is allowed to do "what" (permissions) is an exercise of assigning permissions to users in some way. This is always done by the application's data model and can vary greatly across applications.   Refer to [Apache Shiro](https://shiro.apache.org/permissions.html) for detailed documentation on permissions in `angular-authz`.
+Refer to [Apache Shiro permissions page](https://shiro.apache.org/permissions.html) for detailed documentation on permissions in `angular-authz`.
 
 ###Simple Permissions
 
