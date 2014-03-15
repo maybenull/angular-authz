@@ -122,3 +122,40 @@ angular.module('app').controller('BarController', function(authz) {
   You can print on the inkjet3000 printer
 </div>
 ```
+
+
+## Advanced Usage
+Does your application represent permission in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
+
+```javascript
+// create a new permission type 
+angular.module('app').factory('MyPermission', function() {
+  function MyWierdPermission(permissionString) {
+    this.wierd = parseTheWierdness(permissionString);
+  
+    this.implies = function(otherWierdPermission) {
+      return this.wierd === otherWierdPermission.wierd;
+    };
+  }
+  
+  // note NO new operator
+  return MyWierdPermission;
+});
+
+// permission strings now resolve to your new type
+angular.module('app').factory('MyPermissionResolver', function(MyPermission) {
+  this.resolve = function(permissionString) {
+    // note we now use new operator
+    return new MyPermission(permissionString);
+  };
+});
+
+// tell authz to use your new permission
+angular.module('app').config(function(authzProvider, resolverProvider) {
+  authzProvider
+});
+
+```
+
+
+
