@@ -114,4 +114,9 @@ angular.module('app').controller('BarController', function(authz) {
 <div has-not-permission="printer:print:inket3000">
   You don't have access to print on the inkjet3000 print
 </div>
+
+<!-- use the scope -->
+<div has-permission="printer:print:{{printerModel.id}}">
+  You can print on the inkjet3000 printer
+</div>
 ```
