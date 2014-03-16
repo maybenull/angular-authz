@@ -125,7 +125,7 @@ angular.module('app').controller('BarController', function(authz) {
 
 
 ## Advanced Usage
-Does your application represent permission in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
+Does your application represent permissions in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
 
 ```javascript
 /* Probably should expose  resolverProvider and/or use $injector to make this testable */
@@ -152,17 +152,18 @@ angular.module('app').config(function(authzProvider) {
 
 ```
 
-Does your application constantly add instances to the a wildcard permission, lets make that easier.  Use a hasPermissionResolver.
+Does your application constantly add instance id's like <div has-permission="card:drive:{{carModel.carId}}"></div>, lets make that easier.  Use a hasPermissionResolver.
 
 ```javascript
-
+// create a hasResolver for team permission
 angular.module('app', ['angular-authz').service('teamPermissionHasResolver', function(WildcardPermission, teamService) {
   this.resolve = function(permissionString) {
-    permissionString += ':' + teamService.getTeamId();
+    permissionString += ':' + teamService.currentTeamId;
     return new WildcardPermission(permissionString);
   };
 ));
 
+// use teamPermissionHasResolver when displaying teams
 angular.module('app').config(function($stateProvider) {
   $stateProvider
     .state('team', {url: '/team/{teamId}', templateUrl: 'partials/team.html',
