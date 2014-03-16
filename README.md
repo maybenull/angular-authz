@@ -152,7 +152,7 @@ angular.module('app').config(function(authzProvider) {
 
 ```
 
-Does your application constantly add instance id's like <div has-permission="card:drive:{{carModel.carId}}"></div>, lets make that easier.  Use a hasPermissionResolver.
+Does your application constantly add instance id's like `<div has-permission="team:coach:{{teamModel.teamId}}"></div>`, lets make that easier.  Use a hasPermissionResolver.
 
 ```javascript
 // create a hasResolver for team permission
