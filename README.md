@@ -128,7 +128,7 @@ angular.module('app').controller('BarController', function(authz) {
 Does your application represent permission in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
 
 ```javascript
-/* I probably need to expose a resolverProvider and/or use the $injector service to make this testable */
+/* Probably should expose  resolverProvider and/or use $injector to make this testable */
 
 angular.module('app').config(function(authzProvider) {
   // create a new permission type 
@@ -152,9 +152,27 @@ angular.module('app').config(function(authzProvider) {
 
 ```
 
-Does your application constantly add an instance to the a wildcard permission, lets make that easier.  Use a hasPermissionResolver.
+Does your application constantly add instances to the a wildcard permission, lets make that easier.  Use a hasPermissionResolver.
 
+```javascript
 
+angular.module('app', ['angular-authz').service('teamPermissionHasResolver', function(WildcardPermission, teamService) {
+  this.resolve = function(permissionString) {
+    permissionString += ':' + teamService.getTeamId();
+    return new WildcardPermission(permissionString);
+  };
+));
 
-
-
+angular.module('app').config(function($stateProvider) {
+  $stateProvider
+    .state('team', {url: '/team/{teamId}', templateUrl: 'partials/team.html',
+      resolve: {
+        something: function($stateParams, authz, teamPermissionHasResolver) {
+          var teamPermissions = queryForTeamPermissions($stateParams.teamId); 
+          authz.setHasPermissionResolver(teamPermissionHasResolver);
+          authz.setPermissions(teamPermissions);
+        }
+      }
+    })
+});
+```
