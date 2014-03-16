@@ -1,6 +1,6 @@
 # angular-authz
 
-Granular authorization in AngularJS through directives and provider.  
+Granular authorization in AngularJS inspired by Apache Shiro.
 
 Visit http://maybenull.github.io/angular-authz/ for complete documentation.
 
@@ -121,4 +121,59 @@ angular.module('app').controller('BarController', function(authz) {
 <div has-permission="printer:print:{{printerModel.id}}">
   You can print on the inkjet3000 printer
 </div>
+```
+
+
+## Advanced Usage
+Does your application represent permissions in a different format from `domain:action:instance`, no problem. Define and resolve your own permissions.
+
+```javascript
+/* Probably should expose  resolverProvider and/or use $injector to make this testable */
+
+angular.module('app').config(function(authzProvider) {
+  // create a new permission type 
+  function MyWierdPermission(permissionString) {
+    this.wierd = parseTheWierdness(permissionString);
+  
+    this.implies = function(otherWierdPermission) {
+      return this.wierd === otherWierdPermission.wierd;
+    };
+  }
+  
+  // resolve permission string to a wierd permission
+  function MyWierdPermissionResolver() {
+    this.resolve = function(permissionString) {
+      return new MyWierdPermission();
+    }
+  }
+
+  authzProvider.setResolver(new MyWierdPermissionResolver());
+});
+
+```
+
+Does your application constantly add instance id's like `<div has-permission="team:coach:{{teamModel.teamId}}"></div>`, lets make that easier.  Use a hasPermissionResolver.
+
+```javascript
+// create a hasResolver for team permission
+angular.module('app', ['angular-authz').service('teamPermissionHasResolver', function(WildcardPermission, teamService) {
+  this.resolve = function(permissionString) {
+    permissionString += ':' + teamService.currentTeamId;
+    return new WildcardPermission(permissionString);
+  };
+));
+
+// use teamPermissionHasResolver when displaying teams
+angular.module('app').config(function($stateProvider) {
+  $stateProvider
+    .state('team', {url: '/team/{teamId}', templateUrl: 'partials/team.html',
+      resolve: {
+        something: function($stateParams, authz, teamPermissionHasResolver) {
+          var teamPermissions = queryForTeamPermissions($stateParams.teamId); 
+          authz.setHasPermissionResolver(teamPermissionHasResolver);
+          authz.setPermissions(teamPermissions);
+        }
+      }
+    })
+});
 ```
