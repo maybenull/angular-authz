@@ -18,6 +18,9 @@
   ],
   "license": "MIT",
   "dependencies": {},
+  "scripts": {
+        "test": "grunt test"
+    },
   "devDependencies": {    
     "grunt": "*",    
     "grunt-contrib-concat": "*",

@@ -90,6 +90,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('dev', ['dist', 'karma:unit', 'watch:source']);
+	grunt.registerTask('test', ['dist', 'karma:unit']);
 	grunt.registerTask('default', ['jshint']);
 	grunt.registerTask('dist', ['jshint', 'concat:dist', 'ngmin', 'uglify']);
 	// grunt.registerTask('dist', ['jshint', 'concat:dist', 'ngmin', 'uglify']);
