@@ -15,6 +15,21 @@ describe('Provider: authz', function() {
 		expect(theAuthzProvider).not.toBeUndefined();
 	});
 
+	it('should use provided permissions', function() {
+		var fakeModule = angular.module('test.app.config', []);
+		fakeModule.config(function(authzProvider) {
+			authzProvider.setPermissions(['b','a']);
+		});
+
+		module('angular-authz', 'test.app.config');
+
+		it(' default', inject(function(authz) {
+			expect(authz.hasPermission('h')).toEqual(false);
+			expect(authz.hasPermission('a')).toEqual(true);
+			expect(authz.hasPermission('a')).toEqual(true);
+		}));
+	});
+
 	it('should use provided resolver', function() {
 		var impliesCount = 0;
 		var fakeModule = angular.module('test.app.config', []);
