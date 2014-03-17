@@ -1,0 +1,121 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Getting Started</h1>
+			<hr/>
+
+			<h2>Dependencies</h2>			
+			<p>The only dependency is <a href="http://angularjs.org">AngularJS</a>.</p>
+			<p>Tested against v1.2.7 but other versions should work.</p>
+			
+			<h2>Installation</h2>
+			<p>Decalare a dependency on the angular-authz module.</p>
+			<pre>angular.module('myModule', ['ui.bootstrap']);</pre>
+
+			<h2>Permissions Defined</h2>
+			<p>Permissoins can take the form of a simple string, like 'admin'.  Or can can take a more complex string form (e.g domain:action:instance). Refer to <a href="https://shiro.apache.org/permissions.html">Apache Shiro permissions</a> for detailed documentation.  Note that if your application uses role based permissions then they can take the simple 'admin' type string form.</p>
+
+			<ul>
+				<li>car:drive:corvette (user can drive a corvette car)</li>
+				<li>car:drive:trans-am (user can drive a trans-am car)</li>
+				<li>car:drive:* (user can drive any car)</li>
+				<li>car:start:corvette (user can start a corvette car)</li>
+				<li>car:*:corvette (user can do anything on a corvette car)</li>
+				<li>car:* (user can do anything on a any car)</li>
+			</ul>
+
+			<h2>Set Permissions</h2>
+			<p>Retrieve permissions for the current client and register them with angular-authz.</p>
+			
+			<h3>Before AngularJS bootstrapping</h3>
+			<p>
+				Many applications prefer to retrieve permissions before angular is bootstraped.  
+				This way authorization is ready before the angular app is initialized.  Using only
+				this method requires retrieving all permissions for the current client.  If this is
+				to heavy for you, then keep reading.
+			</p>
+			<pre>
+&lt;script type="text/javascript"&gt;
+				
+  angular.element(document).ready(function() {
+    $.get('query/for/permissions', function(permissions) {
+      angular.module('app').config(function(authzProvider) {
+        var permissions = queryForPermissions();
+        authzProvider.setPermissions(permissions);
+      });
+      angular.bootstrap(document, ['app']);
+    });
+  });
+
+&lt;script&gt;</pre>
+
+			<h3>After AngularJS bootstrapping</h3>
+			<p>
+				Some applications can't query for all permissions once or just need to change permissions when visiting different pages.
+			</p>
+			<h4>During route resolution</h4>
+			<p>This example uses <a href="https://github.com/angular-ui/ui-router">ui-router</a> but default angular $routeProvider has similiar constructs.</p>
+			<pre>
+angular.module('app').config(function($stateProvider) {
+  $stateProvider
+    .state('team', {url: '/team/{teamId}', templateUrl: 'partials/team.html',
+      resolve: {
+        something: function($stateParams, authz) {
+          var teamPermissions = queryForTeamPermissions($stateParams.teamId); 
+          authz.setPermissions(teamPermissions);
+        }
+      }
+    })
+    .state('admin', {url: '/admin', templateUrl: 'partials/admin.html',
+      resolve: {
+        something: function($stateParams, authz) {
+          var adminPermissions = queryForAdminPermissions($stateParams.teamId); 
+          authz.setPermissions(adminPermissions);
+        }
+      }
+    })    
+});</pre>
+
+			<h4>During controller instantiation</h4>
+			<p>I've never done this, but it's possible</p>
+			<pre>
+angular.module('app').controller('FooController', function(authz) {
+  this.init = function() {
+    var fooPermissions = queryForFooPermissions(); 
+    authz.setPermissions(fooPermissions);
+  };
+});</pre>
+			
+			<h2>Protecting Resources</h2>
+			<p>Once you've set permissions for the current client, you can protect resources.</p>
+
+			<h3>Directives</h3>
+			<pre ng-non-bindable>
+&lt;!-- display if permission exists --&gt;
+&lt;div has-permission="printer:print:inket3000"&gt;
+  You can print on the inkjet3000 printer
+&lt;/div&gt;
+
+&lt;!-- display if permission does not exist --&gt;
+&lt;div has-not-permission="printer:print:inket3000"&gt;
+  You don't have access to print on the inkjet3000 print
+&lt;/div&gt;
+
+&lt;!-- use the scope --&gt;
+&lt;div has-permission="printer:print:{{printerService.currentPrinter.id}}"&gt;
+  You can print on the {{printerModel.currentPrinter.name}} printer
+&lt;/div&gt;
+			</pre>
+
+			<h3>Programatically</h3>
+			<pre>
+angular.module('app').controller('BarController', function(authz) {
+  this.doSomeBar = function() {
+    if (! authz.hasPermission('barpermission')) {
+      // get em outa here
+    }
+  };
+});</pre>
+		</div>
+	</div>
+</div>

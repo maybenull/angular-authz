@@ -7,16 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <meta name="description" content="angular-authz : Granular authorization in AngularJS" />
     <meta name="keywords" content="angular, authorization, permissions" />
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <title>angular-authz</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">    
+    <link href="css/app.css" rel="stylesheet">    
+    <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
   </head>
 
-  <body>
+  <body data-ng-app="app">
 
-    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation" data-nav>
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -28,30 +31,23 @@
           </button>
           <a class="navbar-brand" href="#">angular-authz</a>
         </div>
-
+        <form class="navbar-form navbar-right">        
+          <a class="btn btn-default btn-sm" role="button" href="https://github.com/maybenull/angular-authz"><i class="fa fa-github"></i> View on GitHub</a>
+        </form>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Quickstart</a></li>
-            <li><a href="#">Tutorial</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-          
-          <button type="button" class="btn btn-default navbar-btn pull-right"><i class="fa fa-github"></i>  View on Github</button>          
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+          <ul class="nav navbar-nav navbar-left">
+            <li data-match-route="home"><a href="#/home"><i class="fa fa-home"></i> Home</a></li>
+            <li data-match-route="gettingstarted"><a href="#/gettingstarted"><i class="fa fa-file-text"></i> Getting Started</a></li>            
+          </ul>   
+        </div>     
+        
+        
+      </div>
     </nav>
+
+    <div ng-view></div>
+    
 
   </body>
 </html>
