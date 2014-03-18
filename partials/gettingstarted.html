@@ -10,21 +10,21 @@
 			
 			<h2>Installation</h2>
 			<p>Decalare a dependency on the <code>angular-authz</code> module.</p>
-			<pre>angular.module('myModule', ['angular-authz']);</pre>
+			<div hljs>angular.module('myModule', ['angular-authz']);</div>
 
 			<h2>Set Permissions</h2>
-			<p><code>angular-authz</code> expects permissions in the form <code>authz.setPermissions(['fooPermissionString', 'barPermissionString'])</code>.</p>
+			<p>Permissions are set as a string array.  Keep reading to learn how other permission formats are supported.</p>
+			<div hljs>authz.setPermissions(['fooPermissionString', 'barPermissionString']);</div>
 			<p>Wildcard permssions let you protect resources at the instance level.  This is the default permission type in <code>angular-authz</code>.</p>
-			<ul>
-				<li><code>authz.setPermission(['car:drive:corvette'])</code> - drive the corvette car</li>
-				<li><code>authz.setPermission(['car:drive:corvette', 'car:park:transam'])</code> - drive the corvette car, park the transam car</li>
-				<li><code>authz.setPermission(['car:*:corvette'])</code> - do anything on the corvette car</li>
-				<li><code>authz.setPermission(['car:*'])</code> - drive any car</li>
-				<li><code>authz.setPermission(['car:*', 'truck:drive:*'])</code> - do anything on any car, drive any truck</li>
-			</ul>
+			
+			<div hljs>authz.setPermission(['car:drive:corvette']); // drive the corvette car
+authz.setPermission(['car:drive:corvette', 'car:park:transam']); // drive the corvette car, park the transam car
+authz.setPermission(['car:*:corvette']); // do anything on the corvette car
+authz.setPermission(['car:*']); // drive any car
+authz.setPermission(['car:*', 'truck:drive:*']); // do anything on any car, drive any truck</div>
 
 			<p>Custom permission resolvers allow you to support your own permission formats.</p>
-			<pre>
+			<div hljs>
 angular.module('app').config(function(authzProvider) {
   function MyPermission(permissionInYourFormat) {
     this._parsed = parse(permissionInYourFormat);
@@ -38,9 +38,7 @@ angular.module('app').config(function(authzProvider) {
       return new MyPermission(permissionInYourFormat);			
     };
   });
-});</pre>
-
-			
+});</div>	
 			
 			<h3>Before AngularJS bootstrapping</h3>
 			<p>
@@ -49,8 +47,8 @@ angular.module('app').config(function(authzProvider) {
 				this method requires retrieving all permissions for the current client.  If this is
 				to heavy for you, then keep reading.
 			</p>
-			<pre>
-&lt;script type="text/javascript"&gt;
+			<div hljs>
+<script type="text/javascript">
 				
   angular.element(document).ready(function() {
     $.get('query/for/permissions', function(permissions) {
@@ -62,7 +60,7 @@ angular.module('app').config(function(authzProvider) {
     });
   });
 
-&lt;script&gt;</pre>
+</script></div>
 
 			<h3>After AngularJS bootstrapping</h3>
 			<p>
@@ -70,7 +68,7 @@ angular.module('app').config(function(authzProvider) {
 			</p>
 			<h4>During route resolution</h4>
 			<p>This example uses <a href="https://github.com/angular-ui/ui-router">ui-router</a> but default angular $routeProvider has similiar constructs.</p>
-			<pre>
+			<div hljs>
 angular.module('app').config(function($stateProvider) {
   $stateProvider
     .state('team', {url: '/team/{teamId}', templateUrl: 'partials/team.html',
@@ -84,53 +82,52 @@ angular.module('app').config(function($stateProvider) {
     .state('admin', {url: '/admin', templateUrl: 'partials/admin.html',
       resolve: {
         something: function($stateParams, authz) {
-          var adminPermissions = queryForAdminPermissions($stateParams.teamId); 
+          var adminPermissions = queryForAdminPermissions(); 
           authz.setPermissions(adminPermissions);
         }
       }
     })    
-});</pre>
+});</div>
 
 			<h4>During controller instantiation</h4>
 			<p>I've never done this, but it's possible</p>
-			<pre>
+			<div hljs>
 angular.module('app').controller('FooController', function(authz) {
   this.init = function() {
     var fooPermissions = queryForFooPermissions(); 
     authz.setPermissions(fooPermissions);
   };
-});</pre>
+});</div>
 			
 			<h2>Protecting Resources</h2>
 			<p>Once you've set permissions for the current client, you can protect resources.</p>
 
 			<h3>Directives</h3>
-			<pre ng-non-bindable>
-&lt;!-- display if permission exists --&gt;
-&lt;div has-permission="printer:print:inket3000"&gt;
+			<div hljs >
+<!-- display if permission exists -->
+<div has-permission="printer:print:inket3000">
   You can print on the inkjet3000 printer
-&lt;/div&gt;
+</div>
 
-&lt;!-- display if permission does not exist --&gt;
-&lt;div has-not-permission="printer:print:inket3000"&gt;
+<!-- display if permission does not exist -->
+<div has-not-permission="printer:print:inket3000">
   You don't have access to print on the inkjet3000 print
-&lt;/div&gt;
+</div>
 
-&lt;!-- use the scope --&gt;
-&lt;div has-permission="printer:print:{{printerService.currentPrinter.id}}"&gt;
+<!-- use the scope -->
+<div has-permission="printer:print:{{printerModel.currentPrinter.id}}">
   You can print on the {{printerModel.currentPrinter.name}} printer
-&lt;/div&gt;
-			</pre>
+</div></div>
 
 			<h3>Programatically</h3>
-			<pre>
+			<div hljs>
 angular.module('app').controller('BarController', function(authz) {
   this.doSomeBar = function() {
     if (! authz.hasPermission('barpermission')) {
       // get em outa here
     }
   };
-});</pre>
+});</div>
 		</div>
 	</div>
 </div>

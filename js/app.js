@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-	var app = angular.module('app', ['ngRoute']);
+	var app = angular.module('app', ['ngRoute', 'hljs']);
 
 	app.config(function($routeProvider) {
 	    $routeProvider.
