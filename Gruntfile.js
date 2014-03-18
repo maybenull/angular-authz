@@ -60,12 +60,9 @@ module.exports = function(grunt) {
             }
         },
         ngmin: {
-            directives: {
-                expand: true,
-                cwd: 'dist',
-                src: ['angular-authz.js'],
-                dest: 'dist',
-                ext: '.js'
+            all: {
+                src: ['dist/angular-authz.js'],
+                dest: 'dist/angular-authz.js'
             }
         },
         uglify: {
@@ -84,14 +81,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-ngmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-
 	grunt.loadNpmTasks('grunt-karma');
-
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('dev', ['dist', 'karma:unit', 'watch:source']);
-	grunt.registerTask('test', ['dist', 'karma:unit']);
-	grunt.registerTask('default', ['jshint']);
-	grunt.registerTask('dist', ['jshint', 'concat:dist', 'ngmin', 'uglify']);
+	grunt.registerTask('test', ['jshint', 'concat:dist', 'ngmin', 'karma:unit']);
+	grunt.registerTask('dev', ['test', 'watch:source']);	
+	grunt.registerTask('default', ['dev']);
+	grunt.registerTask('dist', ['test', 'uglify']);
 	// grunt.registerTask('dist', ['jshint', 'concat:dist', 'ngmin', 'uglify']);
 };
