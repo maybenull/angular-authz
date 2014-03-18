@@ -23,11 +23,11 @@ describe('Provider: authz', function() {
 
 		module('angular-authz', 'test.app.config');
 
-		it(' default', inject(function(authz) {
+		inject(function(authz) {
 			expect(authz.hasPermission('h')).toEqual(false);
 			expect(authz.hasPermission('a')).toEqual(true);
 			expect(authz.hasPermission('a')).toEqual(true);
-		}));
+		});
 	});
 
 	it('should use provided resolver', function() {
@@ -50,11 +50,11 @@ describe('Provider: authz', function() {
 
 		module('angular-authz', 'test.app.config');
 
-		it(' default', inject(function(authz) {
+		inject(function(authz) {
 			authz.setPermissions(['h', 'j']);
 			expect(authz.hasPermission('h')).toEqual(true);
 			expect(impliesCount).toBeGreaterThan(0);
-		}));
+		});
 	});
 
 	it('should use provided hasResolver', function() {
@@ -76,10 +76,10 @@ describe('Provider: authz', function() {
 
 		module('angular-authz', 'test.app.config');
 
-		it(' default', inject(function(authz) {
+		inject(function(authz) {
 			authz.setPermissions(['a', 'b']);
 			expect(authz.hasPermission('not-a-permission-but-true')).toEqual(true);
-		}));
+		});
 	});
 
 });
