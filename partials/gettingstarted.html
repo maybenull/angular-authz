@@ -9,23 +9,38 @@
 			<p>Tested against v1.2.7 but other versions should work.</p>
 			
 			<h2>Installation</h2>
-			<p>Decalare a dependency on the angular-authz module.</p>
+			<p>Decalare a dependency on the <code>angular-authz</code> module.</p>
 			<pre>angular.module('myModule', ['angular-authz']);</pre>
 
-			<h2>Permissions Defined</h2>
-			<p>Permissoins can take the form of a simple string, like 'admin'.  Or can can take a more complex string form (e.g domain:action:instance). Refer to <a href="https://shiro.apache.org/permissions.html">Apache Shiro permissions</a> for detailed documentation.  Note that if your application uses role based permissions then they can take the simple 'admin' type string form.</p>
-
+			<h2>Set Permissions</h2>
+			<p><code>angular-authz</code> expects permissions in the form <code>authz.setPermissions(['fooPermissionString', 'barPermissionString'])</code>.</p>
+			<p>Wildcard permssions let you protect resources at the instance level.  This is the default permission type in <code>angular-authz</code>.</p>
 			<ul>
-				<li>car:drive:corvette (user can drive a corvette car)</li>
-				<li>car:drive:trans-am (user can drive a trans-am car)</li>
-				<li>car:drive:* (user can drive any car)</li>
-				<li>car:start:corvette (user can start a corvette car)</li>
-				<li>car:*:corvette (user can do anything on a corvette car)</li>
-				<li>car:* (user can do anything on a any car)</li>
+				<li><code>authz.setPermission(['car:drive:corvette'])</code> - drive the corvette car</li>
+				<li><code>authz.setPermission(['car:drive:corvette', 'car:park:transam'])</code> - drive the corvette car, park the transam car</li>
+				<li><code>authz.setPermission(['car:*:corvette'])</code> - do anything on the corvette car</li>
+				<li><code>authz.setPermission(['car:*'])</code> - drive any car</li>
+				<li><code>authz.setPermission(['car:*', 'truck:drive:*'])</code> - do anything on any car, drive any truck</li>
 			</ul>
 
-			<h2>Set Permissions</h2>
-			<p>Retrieve permissions for the current client and register them with angular-authz.</p>
+			<p>Custom permission resolvers allow you to support your own permission formats.</p>
+			<pre>
+angular.module('app').config(function(authzProvider) {
+  function MyPermission(permissionInYourFormat) {
+    this._parsed = parse(permissionInYourFormat);
+    this.implies = function(otherMyPermission) {
+      return this._parsed = otherMyPermission._parsed;
+    };
+  }
+
+  authzProvider.setResolver({
+    resolve: function(permissionInYourFormat) {
+      return new MyPermission(permissionInYourFormat);			
+    };
+  });
+});</pre>
+
+			
 			
 			<h3>Before AngularJS bootstrapping</h3>
 			<p>
