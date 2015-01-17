@@ -1,5 +1,5 @@
 {
-  "name": "angular-leaflet-directive",
+  "name": "angular-authz",
   "description": "Granular authorization in AngularJS",
   "keywords": [
     "angularjs",
@@ -9,8 +9,7 @@
     "shiro"
   ],
   "main": [
-    "dist/angular-authz.js",
-    "dist/angular-authz.min.js"
+    "dist/angular-authz.js"
   ],
   "dependencies": {
     "angular": "1.2.x"

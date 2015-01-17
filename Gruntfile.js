@@ -54,7 +54,8 @@ module.exports = function(grunt) {
 					'src/services/wildcardPermission.js',
 					'src/services/wildcardPermissionResolver.js',
 					'src/services/authzProvider.js',
-					'src/directives/hasPermission.js'
+					'src/directives/hasPermission.js',
+					'src/directives/hasNotPermission.js'
                 ],
                 dest: 'dist/angular-authz.js'
             }
