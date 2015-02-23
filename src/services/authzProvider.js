@@ -37,7 +37,7 @@ angular.module('angular-authz').provider('authz', function() {
 				resolvePermissions(permissionsStringArray);
 			},
 			addPermission: function(permissionString) {
-			  permissions.push(resolver.resolve(permissionString))
+			  permissions.push(resolver.resolve(permissionString));
 			},
 			hasPermission: function(permissionString) {
 				var permission = hasResolver.resolve(permissionString);
