@@ -1,5 +1,6 @@
 {
   "name": "angular-authz",
+  "version":"1.0",
   "description": "Granular authorization in AngularJS",
   "keywords": [
     "angularjs",
