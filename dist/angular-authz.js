@@ -111,6 +111,9 @@
           setPermissions: function (permissionsStringArray) {
             resolvePermissions(permissionsStringArray);
           },
+          addPermission: function (permissionString) {
+            permissions.push(resolver.resolve(permissionString));
+          },
           hasPermission: function (permissionString) {
             var permission = hasResolver.resolve(permissionString);
             for (var i = 0; i < permissions.length; ++i) {
